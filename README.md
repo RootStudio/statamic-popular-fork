@@ -1,5 +1,5 @@
 ![GitHub release](https://flat.badgen.net/github/release/arthurperton/statamic-popular)
-![Statamic](https://flat.badgen.net/badge/Statamic/3.3.48+/FF269E)
+![Statamic](https://flat.badgen.net/badge/Statamic/6.0+/FF269E)
 
 # Popular – addon for Statamic
 
@@ -16,7 +16,7 @@ Popular registers all page views for individual pages and entries.
 - Easy setup
 - Automatically adds a Pageviews field to your publish forms in the Control Panel
 - Adds a computed field to your entries
-- Includes a dedicated tag 
+- Includes a dedicated tag
 - Dashboard widget
 
 ## Documentation
@@ -37,8 +37,8 @@ To show a top 5 of your most read blog posts, simply do this:
 
 ## Requirements
 
-- PHP 7.4+
-- Statamic v3.3.48+
+- PHP 8.3+
+- Statamic v6+
 
 Popular uses the SQLite3 PHP extension, which is enabled by default.
 

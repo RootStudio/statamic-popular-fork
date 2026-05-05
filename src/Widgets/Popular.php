@@ -15,7 +15,7 @@ class Popular extends Widget
      */
     public function html()
     {
-        if (! User::current()->can('view pageviews')) {
+        if (! optional(User::current())->can('view pageviews')) {
             return;
         }
 
@@ -27,7 +27,7 @@ class Popular extends Widget
 
         $collection = Collection::findByHandle($collection);
 
-        if (! User::current()->can('view', $collection)) {
+        if (! optional(User::current())->can('view', $collection)) {
             return;
         }
 

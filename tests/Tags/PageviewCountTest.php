@@ -1,7 +1,8 @@
 <?php
 
-namespace Tests\UserState;
+namespace Tests\Tags;
 
+use PHPUnit\Framework\Attributes\Test;
 use ArthurPerton\Popular\Facades\Pageviews;
 use ArthurPerton\Popular\Tags\PageviewCount;
 use Statamic\Fields\Value;
@@ -9,9 +10,7 @@ use Tests\TestCase;
 
 class PageviewCountTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_an_exception_when_no_id_is_provided()
     {
         $tag = new PageviewCount();
@@ -21,9 +20,7 @@ class PageviewCountTest extends TestCase
         $tag->index();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_gets_the_id_from_the_parameter_when_given()
     {
         $tag = new PageviewCount();
@@ -36,9 +33,7 @@ class PageviewCountTest extends TestCase
         $this->assertEquals(42, $tag->index());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_gets_the_id_from_a_value_parameter()
     {
         $tag = new PageviewCount();
@@ -51,9 +46,7 @@ class PageviewCountTest extends TestCase
         $this->assertEquals(42, $tag->index());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_gets_the_id_from_the_context()
     {
         $tag = new PageviewCount();
@@ -66,9 +59,7 @@ class PageviewCountTest extends TestCase
         $this->assertEquals(42, $tag->index());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_gets_the_id_from_a_variable()
     {
         $tag = new PageviewCount();
@@ -81,9 +72,7 @@ class PageviewCountTest extends TestCase
         $this->assertEquals(42, $tag->index());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_an_array_when_it_is_a_tag_pair()
     {
         $tag = new PageviewCount();
@@ -96,5 +85,4 @@ class PageviewCountTest extends TestCase
 
         $this->assertEquals(['pageviews' => 42], $tag->index());
     }
-        
 }

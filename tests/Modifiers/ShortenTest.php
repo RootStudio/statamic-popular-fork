@@ -1,15 +1,14 @@
 <?php
 
-namespace Tests\UserState;
+namespace Tests\Modifiers;
 
+use PHPUnit\Framework\Attributes\Test;
 use ArthurPerton\Popular\Modifiers\Shorten;
 use Tests\TestCase;
 
 class ShortenTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_shortens_numbers()
     {
         $modifier = new Shorten();

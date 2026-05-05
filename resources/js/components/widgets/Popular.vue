@@ -1,60 +1,29 @@
 <template>
     <div>
-        <div v-if="initializing" class="loading">
+        <div v-if="loading" class="loading p-2">
             <loading-graphic />
         </div>
 
-        <data-list
-            v-if="!initializing && items.length"
-            :rows="items"
-            :columns="cols"
-            :sort="false"
-            :sort-column="sortColumn"
-            :sort-direction="sortDirection"
-        >
-            <div slot-scope="{}">
-                <data-list-table :loading="loading">
-                    <template
-                        slot="cell-title"
-                        slot-scope="{ row: entry, displayIndex: index }"
-                    >
-                        <div class="flex justify-between items-center">
-                            <div class="flex-1 flex">
-                                <div
-                                    class="
-                                        mr-2
-                                        px-1
-                                        bg-grey-30
-                                        text-grey-80
-                                        rounded-full
-                                    "
-                                >
-                                    {{ offset + index + 1 }}
-                                </div>
-                                <a :href="entry.edit_url">{{ entry.title }}</a>
-                            </div>
-                            <div
-                                class="flex-0"
-                                v-tooltip="`${entry.pageviews ?? 0} views`"
-                            >
-                                {{ shorten(entry.pageviews) }}
-                                {{ __("views") }}
-                            </div>
-                        </div>
-                    </template>
-                </data-list-table>
-                <data-list-pagination
-                    v-if="meta.last_page != 1"
-                    class="py-1 border-t bg-grey-20 rounded-b-lg text-sm"
-                    :resource-meta="meta"
-                    @page-selected="selectPage"
-                    :scroll-to-top="false"
-                />
-            </div>
-        </data-list>
+        <ul v-else-if="entries.length" class="px-2 pb-2">
+            <li
+                v-for="(entry, index) in entries"
+                :key="entry.id"
+                class="py-1 flex justify-between items-center"
+            >
+                <div class="flex-1 flex items-center min-w-0">
+                    <div class="mr-2 px-1 bg-grey-30 text-grey-80 rounded-full">
+                        {{ index + 1 }}
+                    </div>
+                    <a class="truncate" :href="entry.edit_url">{{ entry.title }}</a>
+                </div>
+                <div class="flex-0 ml-2" :title="`${entry.pageviews ?? 0} views`">
+                    {{ shorten(entry.pageviews) }} {{ __("views") }}
+                </div>
+            </li>
+        </ul>
 
         <p
-            v-else-if="!initializing && !items.length"
+            v-else
             class="p-2 pt-1 text-sm text-grey-50"
         >
             {{ __("There are no entries in this collection") }}
@@ -63,44 +32,64 @@
 </template>
 
 <script>
-import Listing from "../../../../vendor/statamic/cms/resources/js/components/Listing.vue";
-
 export default {
-    mixins: [Listing],
-
     props: {
         collection: String,
+        initialPerPage: {
+            type: [Number, String],
+            default: 5,
+        },
     },
 
     data() {
         return {
-            cols: [{ label: "Title", field: "title", visible: true }],
-            listingKey: "entries",
-            requestUrl: cp_url(`collections/${this.collection}/entries`),
-            offset: 0,
+            loading: true,
+            entries: [],
         };
     },
 
-    watch: {
-        loading(loading) {
-            if (!loading) {
-                this.offset = (this.page - 1) * this.perPage;
-            }
-        },
+    mounted() {
+        this.fetchEntries();
     },
 
     methods: {
+        fetchEntries() {
+            this.loading = true;
+
+            this.$axios
+                .get(cp_url(`collections/${this.collection}/entries`), {
+                    params: {
+                        sort: 'pageviews',
+                        order: 'desc',
+                        page: 1,
+                        perPage: Number(this.initialPerPage) || 5,
+                    },
+                })
+                .then((response) => {
+                    const data = response?.data?.data ?? {};
+                    this.entries = Object.values(data);
+                })
+                .catch(() => {
+                    this.entries = [];
+                    this.$toast.error(__("Something went wrong"));
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
+        },
+
         shorten(number) {
             if (!number) {
                 return 0;
             }
 
-             if (number < 1E3) {
+            if (number < 1E3) {
                 return number;
             }
 
-            let suffix;
-            for (suffix of ['K', 'M', 'B', 'T']) {
+            let suffix = 'K';
+            for (const currentSuffix of ['K', 'M', 'B', 'T']) {
+                suffix = currentSuffix;
                 number /= 1E3;
                 if (number < 1E3) {
                     break;

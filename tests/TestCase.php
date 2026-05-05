@@ -8,6 +8,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         return [
             \Statamic\Providers\StatamicServiceProvider::class,
+            \ArthurPerton\Popular\ServiceProvider::class,
         ];
     }
 
