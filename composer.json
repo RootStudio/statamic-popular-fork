@@ -1,43 +1,43 @@
 {
-    "name": "arthurperton/popular",
-    "description": "Pageview tracker for Statamic 3+",
-    "license": "proprietary",
-    "autoload": {
-        "psr-4": {
-            "ArthurPerton\\Popular\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "statamic": {
-            "name": "Popular",
-            "description": "Pageview tracker for Statamic 3+"
-        },
-        "laravel": {
-            "providers": [
-                "ArthurPerton\\Popular\\ServiceProvider"
-            ]
-        }
-    },
-    "require": {
-        "php": "^7.4 || ^8.0 || ^8.1",
-        "statamic/cms": ">=3.3.48"
-    },
-    "require-dev": {
-        "laravel/pint": "^1.2",
-        "phpunit/phpunit": "^9.5",
-        "orchestra/testbench": "^7.13"
-    },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true,
-        "allow-plugins": {
-            "pixelfear/composer-dist-plugin": true
-        }
+  "name": "arthurperton/popular",
+  "description": "Pageview tracker for Statamic 6+",
+  "license": "proprietary",
+  "autoload": {
+    "psr-4": {
+      "ArthurPerton\\Popular\\": "src"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "statamic": {
+      "name": "Popular",
+      "description": "Pageview tracker for Statamic 6+"
+    },
+    "laravel": {
+      "providers": [
+        "ArthurPerton\\Popular\\ServiceProvider"
+      ]
+    }
+  },
+  "require": {
+    "php": "^8.3",
+    "statamic/cms": "^6.0"
+  },
+  "require-dev": {
+    "laravel/pint": "^1.24",
+    "phpunit/phpunit": "^11.0",
+    "orchestra/testbench": "^10.0"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "allow-plugins": {
+      "pixelfear/composer-dist-plugin": true
+    }
+  }
 }

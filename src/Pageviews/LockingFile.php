@@ -19,10 +19,10 @@ class LockingFile
     public function read(): mixed
     {
         if ($data = $this->readString()) {
-            $data = unserialize($data);
+            return unserialize($data);
         }
 
-        return $data;
+        return null;
     }
 
     public function readString(): string

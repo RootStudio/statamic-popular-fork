@@ -1,7 +1,8 @@
 <?php
 
-namespace Tests\UserState;
+namespace Tests\Pageviews;
 
+use PHPUnit\Framework\Attributes\Test;
 use ArthurPerton\Popular\Pageviews\LockingFile;
 use Tests\TestCase;
 
@@ -23,9 +24,7 @@ class LockingFileTest extends TestCase
         @unlink($this->filename);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_writes_a_string()
     {
         $file = $this->createFile();
@@ -35,9 +34,7 @@ class LockingFileTest extends TestCase
         $this->assertStringMatchesFormatFile($this->filename, 'foo');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_reads_a_string()
     {
         $file = $this->createFile();
@@ -47,9 +44,7 @@ class LockingFileTest extends TestCase
         $this->assertEquals('foo', $file->readString());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_writes_data()
     {
         $file = $this->createFile();
@@ -59,9 +54,7 @@ class LockingFileTest extends TestCase
         $this->assertStringMatchesFormatFile($this->filename, 'a:1:{s:3:"foo";s:3:"bar";}');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_reads_data()
     {
         $file = $this->createFile();
@@ -71,9 +64,7 @@ class LockingFileTest extends TestCase
         $this->assertEquals(['foo' => 'bar'], $file->read());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_modifies_data()
     {
         $file = $this->createFile();
@@ -81,7 +72,7 @@ class LockingFileTest extends TestCase
         $file->write(['foo' => 'bar', 'baz' => 'qux']);
 
         $this->assertEquals(['foo' => 'bar', 'baz' => 'qux'], $file->read());
-    
+
         $file->modify(function ($data) {
             $data['baz'] = 'quux';
 
@@ -91,9 +82,7 @@ class LockingFileTest extends TestCase
         $this->assertEquals(['foo' => 'bar', 'baz' => 'quux'], $file->read());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_does_not_read_from_a_locked_file()
     {
         $file = $this->createFile();
@@ -104,7 +93,7 @@ class LockingFileTest extends TestCase
         flock($stream, LOCK_EX);
 
         $this->expectException(\Exception::class);
-        
+
         $file->read();
 
         fclose($stream);

@@ -27,6 +27,8 @@ class Repository
 
     public function addMultiple(array $pageviews): void
     {
+        $this->assertEntryMap($pageviews);
+
         $this->update(function ($items) use ($pageviews) {
             collect($pageviews)->each(function ($views, $entry) use ($items) {
                 $items->put($entry, (int) $items->get($entry, 0) + $views);
@@ -38,6 +40,8 @@ class Repository
 
     public function setMultiple(array $pageviews): void
     {
+        $this->assertEntryMap($pageviews);
+
         $this->update(function ($items) use ($pageviews) {
             return $items->merge($pageviews);
         });
@@ -66,5 +70,12 @@ class Repository
         }
 
         return $this->items;
+    }
+
+    protected function assertEntryMap(array $pageviews): void
+    {
+        if (array_is_list($pageviews)) {
+            throw new \InvalidArgumentException('Pageviews must be keyed by entry ID. List-style arrays are not allowed.');
+        }
     }
 }

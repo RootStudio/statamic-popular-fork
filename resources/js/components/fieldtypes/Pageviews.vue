@@ -1,11 +1,13 @@
 <template>
     <div>
-        <text-input
+        <input
             ref="input"
+            class="input-text w-full"
             :type="editing ? 'number' : 'text'"
-            :is-read-only="!editing"
+            :readonly="!editing"
             :value="pending"
-            @input="updatePending"
+            min="0"
+            @input="updatePending($event.target.value)"
         />
         <div v-if="saving" class="mt-1 h-6 px-1 flex justify-end text-sm">
             <loading-graphic inline :text="__('Saving')" />
@@ -57,12 +59,12 @@
         </div>
     </div>
 </template>
- 
+
 <script>
+import { FieldtypeMixin as Fieldtype } from '@statamic/cms';
+
 export default {
     mixins: [Fieldtype],
-
-    inject: ['storeName'],
 
     data() {
         return {
@@ -74,11 +76,19 @@ export default {
 
     computed: {
         input() {
-            return this.$refs.input.$refs.input;
+            return this.$refs.input;
         },
 
         entry() {
-            return this.$store.state.publish[this.storeName].values.id;
+            return this.publishContainer.values.id;
+        },
+    },
+
+    watch: {
+        value(newValue) {
+            if (!this.editing) {
+                this.pending = newValue;
+            }
         },
     },
 
@@ -103,9 +113,7 @@ export default {
                     views: this.pending,
                 })
                 .then(() => {
-                    const dirty = this.$dirty.has(this.storeName);
                     this.update(this.pending);
-                    this.$dirty.state(this.storeName, dirty);
 
                     this.$toast.success(__("Pageviews updated"));
                 })
@@ -126,7 +134,7 @@ export default {
         },
 
         updatePending(value) {
-            this.pending = parseInt(value);
+            this.pending = parseInt(value, 10) || 0;
 
             if (this.pending < 0) this.pending = 0;
         },

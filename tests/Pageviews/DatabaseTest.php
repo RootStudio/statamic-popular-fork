@@ -1,7 +1,8 @@
 <?php
 
-namespace Tests\UserState;
+namespace Tests\Pageviews;
 
+use PHPUnit\Framework\Attributes\Test;
 use ArthurPerton\Popular\Facades\Database;
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -22,9 +23,7 @@ class DatabaseTest extends TestCase
         @unlink(Database::path());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_adds_a_pageview()
     {
         Carbon::setTestNow('2020-06-22');
@@ -39,9 +38,7 @@ class DatabaseTest extends TestCase
         Database::delete();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_groups_pageviews()
     {
         Database::addPageview('foo');
@@ -63,9 +60,7 @@ class DatabaseTest extends TestCase
         Database::delete();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_deletes_pageviews()
     {
         Database::addPageview('test1');
@@ -82,9 +77,7 @@ class DatabaseTest extends TestCase
         $this->assertCount(2, $records);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_deletes_pageviews_for_an_entry()
     {
         Database::addPageview('foo');

@@ -1,15 +1,14 @@
 <?php
 
-namespace Tests\UserState;
+namespace Tests\Config;
 
+use PHPUnit\Framework\Attributes\Test;
 use ArthurPerton\Popular\Config\Config;
 use Tests\TestCase;
 
 class ConfigTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_includes_all_collections_by_default()
     {
         $config = new Config();
@@ -17,9 +16,7 @@ class ConfigTest extends TestCase
         $this->assertTrue($config->collectionIncluded('included'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_excludes_collections()
     {
         config(['popular.exclude_collections' => ['excluded']]);
@@ -30,9 +27,7 @@ class ConfigTest extends TestCase
         $this->assertFalse($config->collectionIncluded('excluded'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_excludes_collections_with_wildcards()
     {
         config(['popular.exclude_collections' => ['excluded*']]);
@@ -45,9 +40,7 @@ class ConfigTest extends TestCase
         $this->assertFalse($config->collectionIncluded('excludedthree'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_includes_collections()
     {
         config(['popular.include_collections' => ['included']]);
@@ -58,9 +51,7 @@ class ConfigTest extends TestCase
         $this->assertFalse($config->collectionIncluded('excluded'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_includes_collections_with_wildcards()
     {
         config(['popular.include_collections' => ['included*']]);
