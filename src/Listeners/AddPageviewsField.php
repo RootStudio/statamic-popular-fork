@@ -16,11 +16,15 @@ class AddPageviewsField
             return;
         }
 
-        if (! $user->can('view pageviews')) {
+        if (!Config::addField()) {
             return;
         }
 
-        if (! $blueprint = $event->blueprint) {
+        if (!$user->can('view pageviews')) {
+            return;
+        }
+
+        if (!$blueprint = $event->blueprint) {
             return;
         }
 
@@ -28,11 +32,11 @@ class AddPageviewsField
             return;
         }
 
-        if (! $collection = $this->getCollection($blueprint)) {
+        if (!$collection = $this->getCollection($blueprint)) {
             return;
         }
 
-        if (! Config::collectionIncluded($collection->handle())) {
+        if (!Config::collectionIncluded($collection->handle())) {
             return;
         }
 
