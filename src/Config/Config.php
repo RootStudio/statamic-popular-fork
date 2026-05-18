@@ -11,6 +11,11 @@ class Config
         $this->collections = collect();
     }
 
+    public function addField(): bool
+    {
+        return (bool) config('popular.add_field', true);
+    }
+
     public function collectionIncluded(string $handle): bool
     {
         if (! is_null($include = $this->collections->get($handle))) {
